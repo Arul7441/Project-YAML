@@ -1,0 +1,22 @@
+name: Obsidian Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Obsidian Publish CLI
+        run: npm install -g obsidian-publish-cli
+
+      - name: Publish Vault
+        env:
+          VAULT_URL: ${{ secrets.VAULT_URL }}
+          VAULT_PASSWORD: ${{ secrets.VAULT_PASSWORD }}
+        run: obsidian-publish upload --url $VAULT_URL --password $VAULT_PASSWORD
